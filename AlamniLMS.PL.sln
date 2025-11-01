@@ -5,6 +5,10 @@ VisualStudioVersion = 17.14.36401.2 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlamniLMS.PL", "AlamniLMS.PL\AlamniLMS.PL.csproj", "{B8E8F66F-C117-4D56-8FAB-82748A962549}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlamniLMS.DAL", "AlamniLMS.DAL\AlamniLMS.DAL.csproj", "{147CA16E-285A-4181-B9F6-F54731E70F97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlamniLMS.BLL", "AlamniLMS.BLL\AlamniLMS.BLL.csproj", "{216D43AF-EB80-4E26-8918-66D71521B2D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{B8E8F66F-C117-4D56-8FAB-82748A962549}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8E8F66F-C117-4D56-8FAB-82748A962549}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8E8F66F-C117-4D56-8FAB-82748A962549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{147CA16E-285A-4181-B9F6-F54731E70F97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{147CA16E-285A-4181-B9F6-F54731E70F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{147CA16E-285A-4181-B9F6-F54731E70F97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{147CA16E-285A-4181-B9F6-F54731E70F97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216D43AF-EB80-4E26-8918-66D71521B2D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216D43AF-EB80-4E26-8918-66D71521B2D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216D43AF-EB80-4E26-8918-66D71521B2D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216D43AF-EB80-4E26-8918-66D71521B2D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

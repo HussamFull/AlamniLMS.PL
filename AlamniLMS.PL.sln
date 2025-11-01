@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36401.2 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlamniLMS.PL", "AlamniLMS.PL\AlamniLMS.PL.csproj", "{B8E8F66F-C117-4D56-8FAB-82748A962549}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8E8F66F-C117-4D56-8FAB-82748A962549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E8F66F-C117-4D56-8FAB-82748A962549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E8F66F-C117-4D56-8FAB-82748A962549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E8F66F-C117-4D56-8FAB-82748A962549}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED66F8BC-901C-4AA9-A4EE-E70DDF8009BC}
+	EndGlobalSection
+EndGlobal

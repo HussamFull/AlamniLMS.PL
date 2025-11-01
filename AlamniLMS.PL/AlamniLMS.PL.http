@@ -1,0 +1,6 @@
+@AlamniLMS.PL_HostAddress = http://localhost:5062
+
+GET {{AlamniLMS.PL_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

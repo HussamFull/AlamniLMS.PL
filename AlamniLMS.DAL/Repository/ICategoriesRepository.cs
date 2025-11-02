@@ -10,11 +10,11 @@ namespace AlamniLMS.DAL.Repository
     public interface ICategoriesRepository
     {
         int Add(Categories category);
-        IEnumerable<Categories> GetAll();
-        Categories GetById(int id);
+        IEnumerable<Categories> GetAll(bool withTracking = false);
+        Categories? GetById(int id);
 
         int Update(Categories category);
-        int Delete(Categories category);
+        int Remove(Categories category);
        
     }
 }

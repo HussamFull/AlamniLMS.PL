@@ -4,6 +4,8 @@ using AlamniLMS.BLL.Services.Interfacese;
 using AlamniLMS.DAL.Data;
 using AlamniLMS.DAL.Repository;
 using Microsoft.EntityFrameworkCore;
+using Scalar;
+using Scalar.AspNetCore;
 
 namespace AlamniLMS.PL
 {
@@ -33,6 +35,7 @@ namespace AlamniLMS.PL
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
             }
 
             app.UseHttpsRedirection();

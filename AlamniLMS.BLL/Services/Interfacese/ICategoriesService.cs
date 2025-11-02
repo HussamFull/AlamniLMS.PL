@@ -11,10 +11,11 @@ namespace AlamniLMS.BLL.Services.Interfacese
 {
     public interface ICategoriesService
     {
-        int CerateCategories(CategoriesRequest request);
+        int CreateCategories(CategoriesRequest request);
         IEnumerable<CategoriesResponses> GetAllCategories();
-        CategoriesResponses GetCategoriesById(int id);
+        CategoriesResponses? GetCategoriesById(int id);
         int UpdateCategories(int id, CategoriesRequest category);
         int DeleteCategories(int id);
+        bool ToggleStatus(int id);
     }
 }

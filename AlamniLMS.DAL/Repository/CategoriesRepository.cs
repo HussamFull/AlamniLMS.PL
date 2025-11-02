@@ -1,5 +1,6 @@
 ﻿using AlamniLMS.DAL.Data;
 using AlamniLMS.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,27 +20,32 @@ namespace AlamniLMS.DAL.Repository
 
         public int Add(Categories category)
         {
-            throw new NotImplementedException();
+            _context.Categories.Add(category);
+            return _context.SaveChanges();
         }
 
-        public int Delete(Categories category)
+       
+
+        public IEnumerable<Categories> GetAll(bool withTracking = false)
         {
-            throw new NotImplementedException();
+            if (withTracking)
+            return _context.Categories.ToList();
+
+            return _context.Categories.AsNoTracking().ToList();
         }
 
-        public IEnumerable<Categories> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        public Categories? GetById(int id)=>_context.Categories.Find(id);
 
-        public Categories GetById(int id)
+        public int Remove(Categories category)
         {
-            throw new NotImplementedException();
+            _context.Categories.Remove(category);
+            return _context.SaveChanges();
         }
 
         public int Update(Categories category)
         {
-            throw new NotImplementedException();
+            _context.Categories.Update(category);
+            return _context.SaveChanges();
         }
     }
 }

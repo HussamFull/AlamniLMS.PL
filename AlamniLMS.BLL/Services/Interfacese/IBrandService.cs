@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace AlamniLMS.BLL.Services.Interfacese
 {
-    public interface ICategoriesService : IGenericService<CategoriesRequest, CategoriesResponses, Categories>
+    public interface IBrandService : IGenericService<BrandRequest, BrandResponses, Brand>
     {
-     
+       
     }
 }

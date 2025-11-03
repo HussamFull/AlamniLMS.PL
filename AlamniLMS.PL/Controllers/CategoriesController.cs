@@ -19,14 +19,14 @@ namespace AlamniLMS.PL.Controllers
         [HttpGet("")]
         public IActionResult GetAll()
         {
-            var categories = _categoriesService.GetAllCategories();
+            var categories = _categoriesService.GetAll();
             return Ok(categories);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById([FromRoute]int id)
         {
-            var category = _categoriesService.GetCategoriesById(id);
+            var category = _categoriesService.GetById(id);
             if (category == null)
             {
                 return NotFound();
@@ -37,7 +37,7 @@ namespace AlamniLMS.PL.Controllers
         [HttpPost("")]
         public IActionResult Create([FromBody] CategoriesRequest request)
         {
-            var newCategoryId = _categoriesService.CreateCategories(request);
+            var newCategoryId = _categoriesService.Create(request);
 
             return CreatedAtAction(
                  nameof(GetById),
@@ -49,7 +49,7 @@ namespace AlamniLMS.PL.Controllers
         [HttpPatch("{id}")]
         public IActionResult Update([FromRoute]int id, [FromBody] CategoriesRequest request)
         {
-            var result = _categoriesService.UpdateCategories(id, request);
+            var result = _categoriesService.Update(id, request);
             return result > 0 ? Ok(new { message = "Category updateed successfully" }) : NotFound();
         }
 
@@ -65,7 +65,7 @@ namespace AlamniLMS.PL.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete([FromRoute]int id)
         {
-            var result = _categoriesService.DeleteCategories(id);
+            var result = _categoriesService.Delete(id);
             return result > 0 ? Ok(new { message = "Delete is Categories" }) : NotFound(new { message = "Delete not Categories" });
         }
     }

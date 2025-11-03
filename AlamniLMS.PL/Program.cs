@@ -2,7 +2,8 @@
 using AlamniLMS.BLL.Services.Classes;
 using AlamniLMS.BLL.Services.Interfacese;
 using AlamniLMS.DAL.Data;
-using AlamniLMS.DAL.Repository;
+using AlamniLMS.DAL.Repository.Classes;
+using AlamniLMS.DAL.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Scalar;
 using Scalar.AspNetCore;
@@ -26,8 +27,19 @@ namespace AlamniLMS.PL
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Dependency Injection for Categories
             builder.Services.AddScoped<ICategoriesRepository,CategoriesRepository>();
             builder.Services.AddScoped<ICategoriesService,CategoriesService>();
+
+            // Dependency Injection for Brand Repository
+            builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+            builder.Services.AddScoped<IBrandService, BrandService>();
+
+
+
+
+
+
 
             var app = builder.Build();
 

@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace AlamniLMS.BLL.Services.Classes
 {
-    public class CategoriesService : GenericService<CategoriesRequest, CategoriesResponses, Categories>,ICategoriesService
+    public class BrandService : GenericService<BrandRequest, BrandResponses, Brand>,IBrandService
     {
 
-        public CategoriesService(ICategoriesRepository repository) :base(repository)
+        public BrandService(IBrandRepository repository) :base(repository)
         {
         }
     

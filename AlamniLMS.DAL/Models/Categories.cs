@@ -9,6 +9,6 @@ namespace AlamniLMS.DAL.Models
     public class Categories : BaseModel
     {
         public string Name { get; set; } 
-        public string Description { get; set; } 
+        public string? Description { get; set; } 
     }
 }

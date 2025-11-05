@@ -2,8 +2,11 @@
 using AlamniLMS.BLL.Services.Classes;
 using AlamniLMS.BLL.Services.Interfacese;
 using AlamniLMS.DAL.Data;
+using AlamniLMS.DAL.Models;
 using AlamniLMS.DAL.Repository.Classes;
 using AlamniLMS.DAL.Repository.Interfaces;
+using AlamniLMS.DAL.Utils;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar;
 using Scalar.AspNetCore;
@@ -12,7 +15,7 @@ namespace AlamniLMS.PL
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +39,31 @@ namespace AlamniLMS.PL
             builder.Services.AddScoped<IBrandService, BrandService>();
 
 
+            // Dependency Injection for Seed Data
+            builder.Services.AddScoped<ISeedData, SeedData>();
+
+
+            // Register Identity services
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                 .AddEntityFrameworkStores<ApplicationDbContext>();
+                //options =>
+                //{
+                    //options.Password.RequireDigit = true;
+                    //options.Password.RequireLowercase = true;
+                    //options.Password.RequireUppercase = true;
+                    //options.Password.RequireNonAlphanumeric = false;
+                    //options.Password.RequiredLength = 8;
+                    //options.User.RequireUniqueEmail = true;
+                    //options.SignIn.RequireConfirmedEmail = true;
+                    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+                    //options.Lockout.MaxFailedAccessAttempts = 10;
+                    // options.Lockout.AllowedForNewUsers = true;
+                //}
+
+                //)
+                //.AddEntityFrameworkStores<ApplicationDbContext>()
+                //.AddDefaultTokenProviders();
+
 
 
 
@@ -50,7 +78,13 @@ namespace AlamniLMS.PL
                 app.MapScalarApiReference();
             }
 
-            app.UseHttpsRedirection();
+            /// Seed Data
+            var scope = app.Services.CreateScope();
+            var objectOfSeedData = scope.ServiceProvider.GetRequiredService<ISeedData>();
+            await objectOfSeedData.DataSeedingAsync();
+            await objectOfSeedData.IdentityDataSeedingAsync();
+
+           app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

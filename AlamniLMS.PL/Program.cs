@@ -42,6 +42,10 @@ namespace AlamniLMS.PL
             // Dependency Injection for Seed Data
             builder.Services.AddScoped<ISeedData, SeedData>();
 
+            // Dependency Injection for Authentication Service
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationSerive>();
+
+
 
             // Register Identity services
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()

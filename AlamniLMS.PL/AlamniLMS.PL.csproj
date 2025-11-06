@@ -20,4 +20,9 @@
     <ProjectReference Include="..\AlamniLMS.BLL\AlamniLMS.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Area\Admin\Controller\" />
+    <Folder Include="Area\Customer\Controller\" />
+  </ItemGroup>
+
 </Project>

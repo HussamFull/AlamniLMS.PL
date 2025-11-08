@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AlamniLMS.PL.Controllers
+namespace AlamniLMS.PL.Area.Admin.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[area]/[controller]")]
     [ApiController]
-    [Authorize]
+    [Area("Admin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class BrandsController : ControllerBase
     {
         private readonly IBrandService _brandService;
@@ -35,6 +36,7 @@ namespace AlamniLMS.PL.Controllers
             }
             return Ok(Brand);
         }
+
 
         [HttpPost("")]
         public IActionResult Create([FromBody] BrandRequest request)

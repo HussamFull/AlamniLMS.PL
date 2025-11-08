@@ -22,8 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Area\Admin\Controller\" />
-    <Folder Include="Area\Customer\Controller\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

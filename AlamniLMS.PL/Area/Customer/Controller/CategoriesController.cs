@@ -1,12 +1,15 @@
 ﻿using AlamniLMS.BLL.Services.Interfacese;
 using AlamniLMS.DAL.DTO.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AlamniLMS.PL.Controllers
+namespace AlamniLMS.PL.Area.Customer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[area]/[controller]")]
     [ApiController]
+    [Area("Customer")]
+    [Authorize(Roles = "Customer")]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoriesService _categoriesService;
@@ -19,7 +22,7 @@ namespace AlamniLMS.PL.Controllers
         [HttpGet("")]
         public IActionResult GetAll()
         {
-            var categories = _categoriesService.GetAll();
+            var categories = _categoriesService.GetAll(true);
             return Ok(categories);
         }
 

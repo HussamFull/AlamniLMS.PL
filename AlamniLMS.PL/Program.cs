@@ -6,10 +6,13 @@ using AlamniLMS.DAL.Models;
 using AlamniLMS.DAL.Repository.Classes;
 using AlamniLMS.DAL.Repository.Interfaces;
 using AlamniLMS.DAL.Utils;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Scalar;
 using Scalar.AspNetCore;
+using System.Text;
 
 namespace AlamniLMS.PL
 {
@@ -50,23 +53,44 @@ namespace AlamniLMS.PL
             // Register Identity services
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                  .AddEntityFrameworkStores<ApplicationDbContext>();
-                //options =>
-                //{
-                    //options.Password.RequireDigit = true;
-                    //options.Password.RequireLowercase = true;
-                    //options.Password.RequireUppercase = true;
-                    //options.Password.RequireNonAlphanumeric = false;
-                    //options.Password.RequiredLength = 8;
-                    //options.User.RequireUniqueEmail = true;
-                    //options.SignIn.RequireConfirmedEmail = true;
-                    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
-                    //options.Lockout.MaxFailedAccessAttempts = 10;
-                    // options.Lockout.AllowedForNewUsers = true;
-                //}
+            //options =>
+            //{
+            //options.Password.RequireDigit = true;
+            //options.Password.RequireLowercase = true;
+            //options.Password.RequireUppercase = true;
+            //options.Password.RequireNonAlphanumeric = false;
+            //options.Password.RequiredLength = 8;
+            //options.User.RequireUniqueEmail = true;
+            //options.SignIn.RequireConfirmedEmail = true;
+            //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+            //options.Lockout.MaxFailedAccessAttempts = 10;
+            // options.Lockout.AllowedForNewUsers = true;
+            //}
 
-                //)
-                //.AddEntityFrameworkStores<ApplicationDbContext>()
-                //.AddDefaultTokenProviders();
+            //)
+            //.AddEntityFrameworkStores<ApplicationDbContext>()
+            //.AddDefaultTokenProviders();
+
+
+            // JWT Authentication Configuration
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+               .AddJwtBearer(options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer = false,
+                       ValidateAudience = false,
+                       ValidateLifetime = true,
+                       ValidateIssuerSigningKey = true,
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwtOptions:SecretKey"]))
+                    };
+                });
+
 
 
 

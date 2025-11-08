@@ -4,9 +4,12 @@ using AlamniLMS.DAL.DTO.Responses;
 using AlamniLMS.DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,18 +18,18 @@ namespace AlamniLMS.BLL.Services.Classes
     public class AuthenticationSerive : IAuthenticationService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        //private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         //private readonly IEmailSender _emailSender;
         //private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AuthenticationSerive(UserManager<ApplicationUser> userManager
-      // IConfiguration configuration,
+        public AuthenticationSerive(UserManager<ApplicationUser> userManager,
+         IConfiguration configuration
         //IEmailSender emailSender,
         //SignInManager<ApplicationUser> signInManager
        )
         {
             _userManager = userManager;
-           // _configuration = configuration;
+            _configuration = configuration;
             //_emailSender = emailSender;
             //_signInManager = signInManager;
         }
@@ -47,7 +50,7 @@ namespace AlamniLMS.BLL.Services.Classes
             }
             return new UserResponse()
             {
-                Email = loginRequest.Email,
+                Token = await CreateTokenAsync(user),
             };
 
             // التحقق من صحة كلمة المرور
@@ -111,14 +114,45 @@ namespace AlamniLMS.BLL.Services.Classes
                 //);
                 return new UserResponse()
                 {
-                    Email = registerRequest.Email,
-                   // Token = registerRequest.Email,
+                    Token = registerRequest.Email,
                 };
             }
             else
             {
                 throw new Exception($"{Result.Errors}");
             }
+
+
+
         }
+
+
+        private async Task<string> CreateTokenAsync(ApplicationUser user)
+        {
+            var Claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.FullName)
+            };
+
+            var Roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in Roles)
+            {
+                Claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("jwtOptions")["SecretKey"]));
+            var credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                claims: Claims,
+                expires: DateTime.Now.AddDays(15),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
     }
 }

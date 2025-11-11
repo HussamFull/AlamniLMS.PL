@@ -1,6 +1,7 @@
 
 using AlamniLMS.BLL.Services.Classes;
 using AlamniLMS.BLL.Services.Interfacese;
+
 using AlamniLMS.DAL.Data;
 using AlamniLMS.DAL.Models;
 using AlamniLMS.DAL.Repository.Classes;
@@ -42,6 +43,13 @@ namespace AlamniLMS.PL
             // Dependency Injection for Brand Repository
             builder.Services.AddScoped<IBrandRepository, BrandRepository>();
             builder.Services.AddScoped<IBrandService, BrandService>();
+
+            // Dependency Injection for Course Repository
+            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+            builder.Services.AddScoped<ICourseService, CourseService>();
+
+            // Dependency Injection for File Service
+            builder.Services.AddScoped<IFileService, FileService>();
 
 
             // Dependency Injection for Seed Data
@@ -122,6 +130,8 @@ namespace AlamniLMS.PL
            app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
+            app.UseStaticFiles();
 
 
             app.MapControllers();

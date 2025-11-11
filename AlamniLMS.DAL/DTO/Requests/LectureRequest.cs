@@ -1,0 +1,20 @@
+﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AlamniLMS.DAL.DTO.Requests
+{
+    public class LectureRequest
+    {
+        public int CourseId { get; set; }
+        public string Title { get; set; }
+        public string? Description { get; set; }
+        public IFormFile VideoUrl { get; set; }       // أو مسار الملف في التخزين
+        public int Order { get; set; }             // ترتيب المحاضرة داخل الكورس
+        public int? DurationSeconds { get; set; }   // مدة الفيديو (اختياري)
+
+    }
+}

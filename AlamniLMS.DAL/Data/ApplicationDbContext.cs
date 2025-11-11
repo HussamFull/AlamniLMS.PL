@@ -15,6 +15,13 @@ namespace AlamniLMS.DAL.Data
     {
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        //
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Lecture> Lectures { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<Certificate> Certificates { get; set; }
+
+
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

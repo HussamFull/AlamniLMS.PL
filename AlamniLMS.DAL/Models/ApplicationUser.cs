@@ -14,5 +14,10 @@ namespace AlamniLMS.DAL.Models
         public string? City { get; set; }
 
         public string? Street { get; set; }
+
+
+        public string? CodeRestPassword { get; set; }
+        public DateTime? PasswordRestCodeExpiry { get; set; }
+
     }
 }

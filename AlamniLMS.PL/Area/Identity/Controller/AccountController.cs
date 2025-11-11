@@ -26,10 +26,10 @@ namespace AlamniLMS.PL.Area.Identity.Controller
             //}
             //try
             //{
-                var result = await _authenticationService.RegisterAsync(registerRequest
-                   // , Request
-                    );
-                return Ok(result);
+            var result = await _authenticationService.RegisterAsync(registerRequest
+                // , Request
+                );
+            return Ok(result);
             //}
             //catch (Exception ex)
             //{
@@ -47,14 +47,55 @@ namespace AlamniLMS.PL.Area.Identity.Controller
             //}
             //try
             //{
-                var userResponse = await _authenticationService.LoginAsync(loginRequest);
-                return Ok(userResponse);
+            var userResponse = await _authenticationService.LoginAsync(loginRequest);
+            return Ok(userResponse);
             //}
             //catch (Exception ex)
             //{
             //    return StatusCode(500, $"Internal server error: {ex.Message}");
-           // }
+            // }
         }
 
+        [HttpGet("ConfirmEmail")]
+        public async Task<ActionResult<string>> ConfirmEmail([FromQuery] string userId, [FromQuery] string token)
+        {
+            //try
+            //{
+            var result = await _authenticationService.ConfirmEmailAsync(userId, token);
+            return Ok(result);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return StatusCode(500, $"Internal server error: {ex.Message}");
+            //}
+        }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<ActionResult<bool>> ForgotPassword(ForgotPasswordRequest request)
+        {
+            //try
+            //{
+            var result = await _authenticationService.ForgotPasswordAsync(request);
+            return Ok(result);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return StatusCode(500, $"Internal server error: {ex.Message}");
+            //}
+
+        }
+        [HttpPost("reset-password")]
+        public async Task<ActionResult<string>> ResetPasswordAsync(ResetPasswordRequest request)
+        {
+            //try
+            //{
+            var result = await _authenticationService.ResetPasswordAsync(request);
+            return Ok(result);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return StatusCode(500, $"Internal server error: {ex.Message}");
+            //}
+        }
     }
 }

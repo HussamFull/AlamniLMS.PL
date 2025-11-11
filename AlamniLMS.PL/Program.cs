@@ -6,8 +6,10 @@ using AlamniLMS.DAL.Models;
 using AlamniLMS.DAL.Repository.Classes;
 using AlamniLMS.DAL.Repository.Interfaces;
 using AlamniLMS.DAL.Utils;
+using AlamniLMS.PL.utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar;
@@ -48,11 +50,16 @@ namespace AlamniLMS.PL
             // Dependency Injection for Authentication Service
             builder.Services.AddScoped<IAuthenticationService, AuthenticationSerive>();
 
+            // Dependency Injection for Email Sender
+            builder.Services.AddScoped<IEmailSender, EmailSetting>();
+
+
+
 
 
             // Register Identity services
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                 .AddEntityFrameworkStores<ApplicationDbContext>();
+                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders(); 
             //options =>
             //{
             //options.Password.RequireDigit = true;

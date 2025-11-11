@@ -14,5 +14,8 @@ namespace AlamniLMS.BLL.Services.Interfacese
         Task<UserResponse> LoginAsync(LoginRequest loginRequest);
         Task<UserResponse> RegisterAsync(RegisterRequest registerRequest);
 
+        Task<string> ConfirmEmailAsync(string userId, string token);
+        Task<bool> ForgotPasswordAsync(ForgotPasswordRequest request);
+        Task<bool> ResetPasswordAsync(ResetPasswordRequest request);
     }
 }

@@ -11,8 +11,8 @@ namespace AlamniLMS.DAL.Models
         public int CourseId { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
-        public string? VideoUrl { get; set; }       // أو مسار الملف في التخزين
-        public int Order { get; set; }             // ترتيب المحاضرة داخل الكورس
+        public string VideoUrl { get; set; }       // أو مسار الملف في التخزين
+        public int? Order { get; set; }             // ترتيب المحاضرة داخل الكورس
         public int? DurationSeconds { get; set; }   // مدة الفيديو (اختياري)
 
         // Navigation

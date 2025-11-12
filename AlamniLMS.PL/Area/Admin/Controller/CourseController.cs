@@ -10,7 +10,7 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
     [Route("api/[area]/[controller]")]
     [ApiController]
     [Area("Admin")]
-    [Authorize(Roles = "Admin,SuperAdmin")]
+    //[Authorize(Roles = "Admin,SuperAdmin")]
     public class CoursesController : ControllerBase
     {
         private readonly ICourseService _courseService;

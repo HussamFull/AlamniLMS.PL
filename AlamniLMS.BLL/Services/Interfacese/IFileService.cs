@@ -9,7 +9,9 @@ namespace AlamniLMS.BLL.Services.Interfacese
 {
     public interface IFileService
     {
-        Task<string> UploadAsync(IFormFile file);
+        // إضافة معامل لتحديد المجلد الهدف
+        Task<string> UploadAsync(IFormFile file, string subFolder);
+      //  Task<string> UploadAsync(IFormFile file);
        // Task<List<string>> UploadManyAsync(List<string> filePaths);
     }
 }

@@ -28,11 +28,11 @@ namespace AlamniLMS.BLL.Services.Classes
         public async Task<int> CreateFile(CourseRequest request)
         {
             var entity = request.Adapt<Course>();
-            entity.CreatedAt = DateTime.Now;
+            entity.CreatedAt = DateTime.UtcNow;
 
             if (request.ThumbnailPath != null)
             {
-                var imagePath = await _fileService.UploadAsync(request.ThumbnailPath);
+                var imagePath = await _fileService.UploadAsync(request.ThumbnailPath, "images");
                 entity.ThumbnailPath = imagePath;
             }
             //if (request.SubImages != null)

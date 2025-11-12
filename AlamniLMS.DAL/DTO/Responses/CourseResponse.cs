@@ -17,6 +17,6 @@ namespace AlamniLMS.DAL.DTO.Responses
         [JsonIgnore]
         public string ThumbnailPath { get; set; }
 
-        public string ThumbnailPathUrl => $"https://localhost:7227/images/{ThumbnailPath}";
+        public string ThumbnailPathUrl => $"https://localhost:7122/images/{ThumbnailPath}";
     }
 }

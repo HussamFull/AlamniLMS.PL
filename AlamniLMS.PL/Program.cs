@@ -45,8 +45,12 @@ namespace AlamniLMS.PL
             builder.Services.AddScoped<IBrandService, BrandService>();
 
             // Dependency Injection for Course Repository
-            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+            builder.Services.AddScoped<ICourseRepository,CourseRepository>();
             builder.Services.AddScoped<ICourseService, CourseService>();
+
+            // Dependency Injection for Lecture Repository
+            builder.Services.AddScoped<ILectureRepository, LectureRepository>();
+            builder.Services.AddScoped<ILectureService, LectureService>();
 
             // Dependency Injection for File Service
             builder.Services.AddScoped<IFileService, FileService>();
@@ -127,7 +131,8 @@ namespace AlamniLMS.PL
             await objectOfSeedData.DataSeedingAsync();
             await objectOfSeedData.IdentityDataSeedingAsync();
 
-           app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

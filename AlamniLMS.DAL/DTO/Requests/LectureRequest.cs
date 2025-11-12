@@ -13,7 +13,7 @@ namespace AlamniLMS.DAL.DTO.Requests
         public string Title { get; set; }
         public string? Description { get; set; }
         public IFormFile VideoUrl { get; set; }       // أو مسار الملف في التخزين
-        public int Order { get; set; }             // ترتيب المحاضرة داخل الكورس
+        public int? Order { get; set; }             // ترتيب المحاضرة داخل الكورس
         public int? DurationSeconds { get; set; }   // مدة الفيديو (اختياري)
 
     }

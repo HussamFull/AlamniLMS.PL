@@ -9,7 +9,7 @@ namespace AlamniLMS.DAL.Repository.Interfaces
 {
     public interface IBrandRepository : IGenericRepository<Brand>
     {
-        
-       
+
+        Task<Brand> GetAsync(int id);
     }
 }

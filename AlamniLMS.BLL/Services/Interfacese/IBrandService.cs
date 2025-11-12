@@ -11,6 +11,7 @@ namespace AlamniLMS.BLL.Services.Interfacese
 {
     public interface IBrandService : IGenericService<BrandRequest, BrandResponses, Brand>
     {
-       
+        Task<int> CreateFile(BrandRequest request);
+        Task<int> UpdateFile(int id, BrandRequest request);
     }
 }

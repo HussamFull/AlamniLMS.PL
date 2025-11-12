@@ -12,6 +12,8 @@ namespace AlamniLMS.BLL.Services.Interfacese
         // إضافة معامل لتحديد المجلد الهدف
         Task<string> UploadAsync(IFormFile file, string subFolder);
       //  Task<string> UploadAsync(IFormFile file);
-       // Task<List<string>> UploadManyAsync(List<string> filePaths);
+        Task<List<string>> UploadManyAsync(List<string> filePaths);
+
+        void Delete(string fileName);
     }
 }

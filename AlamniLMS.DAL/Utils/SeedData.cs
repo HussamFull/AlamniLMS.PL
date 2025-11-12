@@ -46,15 +46,11 @@ namespace AlamniLMS.DAL.Utils
             if (!await _context.Brands.AnyAsync())
             {
                 await _context.Brands.AddRangeAsync(
-                   new Brand { Name = "Samsung" },
-                   new Brand { Name = "Apple" },
-                   new Brand { Name = "MBrandC" }
+                   new Brand { Name = "Samsung", MainImage = "sam.png" },
+                   new Brand { Name = "Apple", MainImage = "Apple.png" },
+                   new Brand { Name = "MBrandC", MainImage = "m.png" }
                );
-                //await _context.Brands.AddRangeAsync(
-                //    new Brand { Name = "Samsung", MainImage = "sam.png" },
-                //    new Brand { Name = "Apple", MainImage = "Apple.png" },
-                //    new Brand { Name = "MBrandC", MainImage = "m.png" }
-                //);
+                
             }
             await _context.SaveChangesAsync();
         }

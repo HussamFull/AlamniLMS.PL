@@ -10,6 +10,10 @@ namespace AlamniLMS.DAL.Models
     {
         public string Name { get; set; }
 
+        public string MainImage { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
+
         public List<Course> Courses { get; set; } = new List<Course>();
 
     }

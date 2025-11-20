@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,15 +7,18 @@ using System.Threading.Tasks;
 
 namespace AlamniLMS.DAL.Models
 {
-    public class Enrollment : BaseModel
+    [PrimaryKey(nameof(CourseId), nameof(UserId))]
+    public class Enrollment 
     {
         public string UserId { get; set; }         // FK إلى جدول AspNetUsers (Identity)
-        public int CourseId { get; set; }
+        public ApplicationUser User { get; set; } //
+        public int CourseId { get; set; } //
         public DateTime? EnrolledAt { get; set; } = DateTime.UtcNow;
-        public bool IsActive { get; set; } = true;
-        public decimal PaidAmount { get; set; }    // إن أردت تسجيل المبلغ المدفوع
+        public bool? IsActive { get; set; } = true;
+        public decimal? PaidAmount { get; set; }    // إن أردت تسجيل المبلغ المدفوع
         public double? ProgressPercent { get; set; } = 0.0; // نسبة التقدم 0-100
         public DateTime? CompletedAt { get; set; }
+        public int Count { get; set; }
 
         // Navigation
         public Course Course { get; set; }

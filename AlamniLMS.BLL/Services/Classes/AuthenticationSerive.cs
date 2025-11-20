@@ -3,6 +3,7 @@ using AlamniLMS.DAL.DTO.Requests;
 using AlamniLMS.DAL.DTO.Responses;
 using AlamniLMS.DAL.Models;
 using Azure.Core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -24,18 +25,18 @@ namespace AlamniLMS.BLL.Services.Classes
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailSender _emailSender;
-        //private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AuthenticationSerive(UserManager<ApplicationUser> userManager,
          IConfiguration configuration,
-        IEmailSender emailSender
-        //SignInManager<ApplicationUser> signInManager
+        IEmailSender emailSender,
+        SignInManager<ApplicationUser> signInManager
        )
         {
             _userManager = userManager;
             _configuration = configuration;
             _emailSender = emailSender;
-            //_signInManager = signInManager;
+            _signInManager = signInManager;
         }
 
         public async Task<UserResponse> LoginAsync(DAL.DTO.Requests.LoginRequest loginRequest)
@@ -46,54 +47,39 @@ namespace AlamniLMS.BLL.Services.Classes
             {
                 throw new Exception("Invalid Email or password");
             }
-            if (!await _userManager.IsEmailConfirmedAsync(user))
+           
+
+            //التحقق من صحة كلمة المرور
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginRequest.Password, false);
+
+           // التحقق من نتيجة تسجيل الدخول
+            if (result.Succeeded)
             {
+                // إذا نجحت العملية، قم بإنشاء وإرجاع التوكن
+                return new UserResponse()
+                {
+                    Token = await CreateTokenAsync(user),
+                };
+            }
+            else if (result.IsLockedOut)
+            {
+                // إذا كان المستخدم مقفولاً
+                throw new Exception("User is locked out");
+            }
+            else if (result.IsNotAllowed)
+            {
+                // إذا كان المستخدم غير مسموح له بالدخول (مثل عدم تأكيد البريد الإلكتروني)
                 throw new Exception("Please Confirm your Email");
             }
-
-            var isPassValid = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
-            if (!isPassValid)
+            else
             {
+                // إذا فشلت العملية لأي سبب آخر (مثل كلمة مرور خاطئة)
                 throw new Exception("Invalid Email or password");
             }
-            return new UserResponse()
-            {
-                Token = await CreateTokenAsync(user),
-            };
-
-            // التحقق من صحة كلمة المرور
-            // var result = await _signInManager.CheckPasswordSignInAsync(user, loginRequest.Password, false);
-
-            // التحقق من نتيجة تسجيل الدخول
-            //if (result.Succeeded)
-            //{
-            //    // إذا نجحت العملية، قم بإنشاء وإرجاع التوكن
-            //    return new UserResponse()
-            //    {
-            //        Token = await CreateTokenAsync(user),
-            //    };
-            //}
-            //else if (result.IsLockedOut)
-            //{
-            //    // إذا كان المستخدم مقفولاً
-            //    throw new Exception("User is locked out");
-            //}
-            //else if (result.IsNotAllowed)
-            //{
-            //    // إذا كان المستخدم غير مسموح له بالدخول (مثل عدم تأكيد البريد الإلكتروني)
-            //    throw new Exception("Please Confirm your Email");
-            //}
-            //else
-            //{
-            //    // إذا فشلت العملية لأي سبب آخر (مثل كلمة مرور خاطئة)
-            //    throw new Exception("Invalid Email or password");
-            //}
         }
 
 
-        public async Task<UserResponse> RegisterAsync(DAL.DTO.Requests.RegisterRequest registerRequest
-            // , HttpRequest request
-            )
+        public async Task<UserResponse> RegisterAsync(DAL.DTO.Requests.RegisterRequest registerRequest  , HttpRequest request)
         {
             var user = new ApplicationUser()
             {
@@ -110,11 +96,11 @@ namespace AlamniLMS.BLL.Services.Classes
                 // Send Email Confirmation
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var escapeToken = Uri.EscapeDataString(token);
-                var emailUrl = $"https://localhost:7227/api/identity/account/ConfirmEmail?token={escapeToken}&userId={user.Id}";
+                //var emailUrl = $"https://localhost:7227/api/identity/account/ConfirmEmail?token={escapeToken}&userId={user.Id}";
 
-                //var emailUrl = $"{request.Scheme}://{request.Host}/api/identity/account/confirmEmail?token={escapeToken}&userId={user.Id}";
+                var emailUrl = $"{request.Scheme}://{request.Host}/api/identity/account/confirmEmail?token={escapeToken}&userId={user.Id}";
 
-                //await _userManager.AddToRoleAsync(user, "Customer");
+                await _userManager.AddToRoleAsync(user, "Customer");
                 await _emailSender.SendEmailAsync(
                    user.Email,
                     "Confirm your Email",

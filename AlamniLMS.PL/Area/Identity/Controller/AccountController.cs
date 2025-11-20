@@ -26,9 +26,7 @@ namespace AlamniLMS.PL.Area.Identity.Controller
             //}
             //try
             //{
-            var result = await _authenticationService.RegisterAsync(registerRequest
-                // , Request
-                );
+            var result = await _authenticationService.RegisterAsync(registerRequest, Request);
             return Ok(result);
             //}
             //catch (Exception ex)

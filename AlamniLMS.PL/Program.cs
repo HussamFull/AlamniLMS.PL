@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar;
 using Scalar.AspNetCore;
+using Stripe;
 using System.Text;
 
 namespace AlamniLMS.PL
@@ -52,8 +53,22 @@ namespace AlamniLMS.PL
             builder.Services.AddScoped<ILectureRepository, LectureRepository>();
             builder.Services.AddScoped<ILectureService, LectureService>();
 
+            // Dependency Injection for Enrollment Repository
+            builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+            builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
+
+            // Dependency Injection for CheckOut Service
+            builder.Services.AddScoped<ICheckOutService, CheckOutService>();
+
+            // Dependency Injection for Order Repository
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+            // Dependency Injection for Order Item Repository
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
+
             // Dependency Injection for File Service
-            builder.Services.AddScoped<IFileService, FileService>();
+            builder.Services.AddScoped<IFileService, BLL.Services.Classes.FileService>();
 
 
             // Dependency Injection for Seed Data
@@ -111,6 +126,10 @@ namespace AlamniLMS.PL
                 });
 
 
+
+            // Stripe Configuration
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 
 

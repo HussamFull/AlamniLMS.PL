@@ -37,6 +37,15 @@ namespace AlamniLMS.DAL.Repository.Classes
                 .ToListAsync();
         }
 
-       
+        public async Task<bool> ClearEnrollmentAsync(string UserId)
+        {
+            var items = _context.Enrollments.Where(e => e.UserId == UserId).ToList();
+            _context.Enrollments.RemoveRange(items);
+
+             await _context.SaveChangesAsync();
+            return true;
+        }
+
+
     }
 }

@@ -50,5 +50,10 @@ namespace AlamniLMS.BLL.Services.Classes
             };
             return response;
         }
+
+        public async Task<bool> ClearEnrollmentAsync(string UserId)
+        {
+            return await _enrollmentRepository.ClearEnrollmentAsync(UserId);
+        }
     }
 }

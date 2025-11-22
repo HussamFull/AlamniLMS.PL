@@ -12,5 +12,7 @@ namespace AlamniLMS.DAL.Repository.Interfaces
         Task<int> AddAsync(Enrollment enrollment);
 
         Task<List<Enrollment>> GetUserEnrollmentAsync(string UserId);
+
+        Task<bool> ClearEnrollmentAsync(string UserId);
     }
 }

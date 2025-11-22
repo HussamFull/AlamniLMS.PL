@@ -32,40 +32,41 @@ namespace AlamniLMS.DAL.Repository.Classes
             return await _context.Orders.Include(o => o.User)
                 .FirstOrDefaultAsync(o => o.Id == orderId);
         }
+        // اليوزر بدو يعرف الاوردر تبعه 
+        public async Task<List<Order>> GetAllWithUserAsync(string userId)
+        {
+            return await _context.Orders
+                .Where(o => o.UserId == userId)
+                .ToListAsync();
+        }
+        //الادمن بدو يعرف الاوردرات 
+        public async Task<List<Order>> GetByStatusAsync(OrderStatusEnum status)
+        {
+            return await _context.Orders
+                .Where(o => o.Status == status)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
 
-        //public async Task<List<Order>> GetAllWithUserAsync(string userId)
-        //{
-        //    return await _context.Orders
-        //        .Where(o => o.UserId == userId)
-        //        .ToListAsync();
-        //}
+        public async Task<List<Order>> GetOrderByUserAsync(string userId)
+        {
+            return await _context.Orders.Include(o => o.User)
+                .OrderByDescending(o => o.OrderDate).ToListAsync();
+        }
 
-        //public async Task<List<Order>> GetByStatusAsync(OrderStatusEnum status)
-        //{
-        //    return await _context.Orders
-        //        .Where(o => o.Status == status)
-        //        .OrderByDescending(o => o.OrderDate)
-        //        .ToListAsync();
-        //}
+        // تغير حالة الاوردر 
+        public async Task<bool> ChangeStatusAsync(int orderId, OrderStatusEnum newStatus)
+        {
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order == null)
+            {
+                return false; // Order not found
+            }
+            order.Status = newStatus;
 
-        //public async Task<List<Order>> GetOrderByUserAsync(string userId)
-        //{
-        //    return await _context.Orders.Include(o => o.User)
-        //        .OrderByDescending(o => o.OrderDate).ToListAsync();
-        //}
-
-        //public async Task<bool> ChangeStatusAsync(int orderId, OrderStatusEnum newStatus)
-        //{
-        //    var order = await _context.Orders.FindAsync(orderId);
-        //    if (order == null)
-        //    {
-        //        return false; // Order not found
-        //    }
-        //    order.Status = newStatus;
-
-        //    var result = await _context.SaveChangesAsync();
-        //    return result > 0;
-        //}
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
+        }
 
         //public async Task<bool> UserHasApprovedOrderForProductAsync(string userId, int productId)
         //{

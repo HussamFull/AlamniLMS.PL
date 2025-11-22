@@ -77,8 +77,10 @@ namespace AlamniLMS.BLL.Services.Classes
                 }
 
                 await _orderItemRepository.AddRangeAsync(orderItems);
-                //await _cartRepository.ClearCartAsync(order.UserId);
+                await _enrollmentRepository.ClearEnrollmentAsync(order.UserId);
                 //await _productRepository.DecreaseQuantityAsync(productUpdate);
+
+
 
 
                 subject = "Payment Successful - Alamni LMS";

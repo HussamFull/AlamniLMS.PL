@@ -13,5 +13,7 @@ namespace AlamniLMS.BLL.Services.Interfacese
         Task<bool> AddToEnrollmentAsync(EnrollmentRequest request, string UserId);
 
         Task<EnrollmentSummaryResponse> EnrollmentSummaryResponseAsync(string UserId);
+
+        Task<bool> ClearEnrollmentAsync(string UserId);
     }
 }

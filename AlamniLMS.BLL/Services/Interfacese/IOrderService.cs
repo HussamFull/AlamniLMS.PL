@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlamniLMS.DAL.Repository.Interfaces
+namespace AlamniLMS.BLL.Services.Interfacese
 {
-    public interface IOrderRepository
+    public interface IOrderService
     {
         Task<Order?> GetUserByOrderAsync(int orderId);
 
-        Task<Order?> AddAsync(Order order);
+        Task<Order?> AddOrderAsync(Order order);
 
-        Task<List<Order>> GetAllWithUserAsync(string userId);
+        // Task<List<Order>> GetAllWithUserAsync(string userId);
 
         Task<bool> ChangeStatusAsync(int orderId, OrderStatusEnum newStatus);
 
@@ -21,8 +21,5 @@ namespace AlamniLMS.DAL.Repository.Interfaces
 
 
         Task<List<Order>> GetByStatusAsync(OrderStatusEnum status);
-
-        //Task<bool> UserHasApprovedOrderForProductAsync(string userId, int productId);
-
     }
 }

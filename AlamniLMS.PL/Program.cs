@@ -62,9 +62,17 @@ namespace AlamniLMS.PL
 
             // Dependency Injection for Order Repository
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
 
             // Dependency Injection for Order Item Repository
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
+            // Dependency Injection for User Service
+            builder.Services.AddScoped<IUserService, UserService>();
+            // Dependency Injection for User Repository
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+            // Dependency Injection for Review Repository
 
 
             // Dependency Injection for File Service

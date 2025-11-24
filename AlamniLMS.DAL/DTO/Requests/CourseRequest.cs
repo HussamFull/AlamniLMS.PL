@@ -17,7 +17,7 @@ namespace AlamniLMS.DAL.DTO.Requests
         public decimal Price { get; set; }          // سعر الكورس
         public IFormFile ThumbnailPath { get; set; }   // مسار الصورة المصغرة
 
-
+        public List< IFormFile> SubImages { get; set; }
 
         public int CategoryId { get; set; }         // إن كنت تستخدم فئات؛ يمكن أن تكون FK
         public int? BrandId { get; set; }

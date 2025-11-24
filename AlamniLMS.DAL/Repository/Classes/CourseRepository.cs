@@ -1,6 +1,7 @@
 ﻿using AlamniLMS.DAL.Data;
 using AlamniLMS.DAL.Models;
 using AlamniLMS.DAL.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,21 @@ namespace AlamniLMS.DAL.Repository.Classes
 {
     public class CourseRepository : GenericRepository<Course>, ICourseRepository
     {
+        private readonly ApplicationDbContext _context;
+
         public CourseRepository(ApplicationDbContext context) : base(context)
         {
+            _context = context;
 
         }
+        public List<Course> GetAllCoursesWithImage()
+                    {
+                        return _context.Courses.Include(p => p.SubImages).ToList();
+                        // .Include(p => p.Reviews).ThenInclude(r => r.User)
+
+                    }
+        
+
     }
 }
+

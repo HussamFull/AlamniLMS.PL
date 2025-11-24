@@ -1,6 +1,8 @@
 ﻿using AlamniLMS.DAL.DTO.Requests;
 using AlamniLMS.DAL.DTO.Responses;
 using AlamniLMS.DAL.Models;
+using Microsoft.AspNetCore.Http;
+using QuestPDF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,9 @@ namespace AlamniLMS.BLL.Services.Interfacese
 {
     public interface ICourseService : IGenericService<CourseRequest, CourseResponse , Course>
     {
-         Task<int> CreateFile(CourseRequest request);
+         Task<int> CreateCourse(CourseRequest request);
+
+        Task<List<CourseResponse>> GetAllCourses(HttpRequest request, bool onlayActive = false);
+
     }
 }

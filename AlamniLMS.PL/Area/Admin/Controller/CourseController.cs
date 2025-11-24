@@ -21,13 +21,13 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
         }
 
         [HttpGet("")]
-        public  IActionResult GetAll()=> Ok(_courseService.GetAll());
+        public  IActionResult GetAll()=> Ok(_courseService.GetAllCourses(Request));
 
 
         [HttpPost("")]
         public async Task<IActionResult> Create([FromForm] CourseRequest request )
         {
-            var result  = await _courseService.CreateFile(request);
+            var result  = await _courseService.CreateCourse(request);
             return Ok(result);
         }
 

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace AlamniLMS.DAL.Repository.Interfaces
 {
-    public interface ICourseRepository : IGenericRepository<Course>
+    public interface ICertificateRepository : IGenericRepository<Certificate>
     {
-        List<Course> GetAllCoursesWithImage();
-
+        Task<Certificate> GetByUserAndCourseAsync(string userId, int courseId);
     }
 }

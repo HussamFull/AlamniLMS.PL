@@ -72,6 +72,11 @@ namespace AlamniLMS.PL
             // Dependency Injection for User Repository
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+            // Dependency Injection for Certificate Repository
+            builder.Services.AddScoped<ICertificateService, CertificateService>();
+            builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
+
+
             // Dependency Injection for Review Repository
 
 

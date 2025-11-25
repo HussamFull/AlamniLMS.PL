@@ -24,7 +24,9 @@ namespace AlamniLMS.DAL.Models
         public List<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
         public List<Certificate> Certificates { get; set; } = new List<Certificate>();
         public List<CourseImage> SubImages { get; set; } = new List<CourseImage>();
-        
+
+        public List<Review> Reviews { get; set; } = new List<Review>();
+
 
     }
 }

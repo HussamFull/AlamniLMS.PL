@@ -21,10 +21,10 @@ namespace AlamniLMS.DAL.Repository.Classes
         }
         public List<Course> GetAllCoursesWithImage()
                     {
-                        return _context.Courses.Include(p => p.SubImages).ToList();
-                        // .Include(p => p.Reviews).ThenInclude(r => r.User)
-
-                    }
+                        return _context.Courses.Include(p => p.SubImages)
+                         .Include(p => p.Reviews).ThenInclude(r => r.User)
+                         .ToList();
+        }
         
 
     }

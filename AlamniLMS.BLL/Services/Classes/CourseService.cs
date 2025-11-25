@@ -64,13 +64,13 @@ namespace AlamniLMS.BLL.Services.Classes
                 //Quantity = p.Quantity,
                 ThumbnailPathUrl = $"{request.Scheme}://{request.Host}/Images/{p.ThumbnailPath}",
                 SubImagesUrls = p.SubImages.Select(img => $"{request.Scheme}://{request.Host}/Images/SubImage/{img.ImageName}").ToList(),
-                //Reviews = p.Reviews.Select(r => new ReviewResponse
-                //{
-                //    Id = r.Id,
-                //    FullName = r.User.FullName,
-                //    Comment = r.Comment,
-                //    Rate = r.Rate
-                //}).ToList()
+                Reviews = p.Reviews.Select(r => new ReviewResponse
+                {
+                    Id = r.Id,
+                    FullName = r.User.FullName,
+                    Comment = r.Comment,
+                    Rate = r.Rate
+                }).ToList()
 
             }).ToList();
         }

@@ -26,6 +26,8 @@ namespace AlamniLMS.DAL.Data
 
         public DbSet<CourseImage> CourseImages { get; set; }
 
+        public DbSet<Review> Reviews { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

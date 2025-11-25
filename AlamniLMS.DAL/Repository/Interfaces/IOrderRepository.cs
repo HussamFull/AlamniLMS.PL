@@ -22,7 +22,7 @@ namespace AlamniLMS.DAL.Repository.Interfaces
 
         Task<List<Order>> GetByStatusAsync(OrderStatusEnum status);
 
-        //Task<bool> UserHasApprovedOrderForProductAsync(string userId, int productId);
+        Task<bool> UserHasApprovedOrderForProductAsync(string userId, int courseId);
 
     }
 }

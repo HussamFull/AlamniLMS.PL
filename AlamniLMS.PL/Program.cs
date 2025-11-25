@@ -78,6 +78,9 @@ namespace AlamniLMS.PL
 
 
             // Dependency Injection for Review Repository
+            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<IReviewService, BLL.Services.Classes.ReviewService>();
+
 
 
             // Dependency Injection for File Service

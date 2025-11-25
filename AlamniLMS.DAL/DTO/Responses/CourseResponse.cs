@@ -24,5 +24,7 @@ namespace AlamniLMS.DAL.DTO.Responses
 
         public List<string> SubImagesUrls { get; set; } = new List<string>();
 
+        public List<ReviewResponse> Reviews { get; set; } = new List<ReviewResponse>();
+
     }
 }

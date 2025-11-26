@@ -11,5 +11,10 @@ namespace AlamniLMS.DAL.Repository.Interfaces
     {
         List<Course> GetAllCoursesWithImage();
 
+        Task<Course> GetCourseWithSubImagesAsync(int id);
+        Task<Course> GetAsync(int id);
+
+        Task<Course?> GetCourseWithImagesAsync(int id);
+
     }
 }

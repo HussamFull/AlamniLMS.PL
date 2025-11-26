@@ -20,56 +20,30 @@ namespace AlamniLMS.PL.Area.Customer.Controllers
             _brandService = brandService;
         }
 
+        // GET: api/Brands
         [HttpGet("")]
-        //public IActionResult GetAll()
-        //{
-        //    var Brand = _brandService.GetAll(true);
-        //    return Ok(Brand);
-        //}
         public IActionResult GetAll()
         {
             var brands = _brandService.GetAll(false);
 
-            // تعديل النتيجة لتحتوي رابط الصورة
-            var result = brands.Select(b => new
-            {
-                b.Id,
-                b.Name,
-                MainImageUrl = string.IsNullOrEmpty(b.MainImage)
-                    ? null
-                   : Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", b.MainImage)
-            });
-
-            return Ok(result);
+                    return Ok(brands);
+           
         }
+
+        // GET: api/Brands/5
 
         [HttpGet("{id}")]
-        //public IActionResult GetById([FromRoute] int id)
-        //{
-        //    var Brand = _brandService.GetById(id);
-        //    if (Brand == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(Brand);
-        //}
         public IActionResult GetById([FromRoute] int id)
         {
-            var brand = _brandService.GetById(id);
-            if (brand is null)
-                return NotFound();
-
-            var result = new
+            var Brand = _brandService.GetById(id);
+            if (Brand == null)
             {
-                brand.Id,
-                brand.Name,
-                MainImagePath = string.IsNullOrEmpty(brand.MainImage)
-                    ? null
-                    : Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", brand.MainImage)
-            };
-
-            return Ok(result);
+                return NotFound();
+            }
+          
+            return Ok(Brand);
         }
+
 
     }
 }

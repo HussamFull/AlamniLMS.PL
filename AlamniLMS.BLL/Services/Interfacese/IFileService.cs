@@ -15,5 +15,7 @@ namespace AlamniLMS.BLL.Services.Interfacese
         Task<List<string>> UploadManyAsync(List<IFormFile> files, string folderName);
 
         void Delete(string fileName);
+
+        void DeleteSubImage(string fileName);
     }
 }

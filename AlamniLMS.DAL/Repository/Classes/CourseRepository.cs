@@ -21,12 +21,34 @@ namespace AlamniLMS.DAL.Repository.Classes
         }
         public List<Course> GetAllCoursesWithImage()
                     {
-                        return _context.Courses.Include(p => p.SubImages)
-                         .Include(p => p.Reviews).ThenInclude(r => r.User)
-                         .ToList();
+                        return _context.Courses
+                            .Include(p => p.SubImages)
+                                .Include(p => p.Reviews).ThenInclude(r => r.User)
+                                    .ToList();
         }
-        
 
+        public async Task<Course> GetCourseWithSubImagesAsync(int id)
+        {
+            return await _context.Courses
+                .Include(c => c.SubImages) // <--- هذا هو الجزء الأساسي لحل المشكلة
+                .Include(p => p.Reviews)
+                  .ThenInclude(r => r.User)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<Course> GetAsync(int id)
+        {
+            return await _context.Courses.FirstOrDefaultAsync(b => b.Id == id);
+        }
+
+        public async Task<Course?> GetCourseWithImagesAsync(int id)
+        {
+            return await _context.Courses
+               .Include(p => p.SubImages) // تحميل الصور الفرعية
+               .Include(p => p.Reviews) // تحميل المراجعات
+                   .ThenInclude(r => r.User) // تحميل المستخدمين المرتبطين بالمراجعات
+               .FirstOrDefaultAsync(c => c.Id == id);
+        }
     }
 }
 

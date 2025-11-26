@@ -79,6 +79,21 @@ namespace AlamniLMS.BLL.Services.Classes
             }
         }
 
+        // دالة جديدة لحذف الصور الفرعية (تستهدف مجلد images/SubImage)
+        public void DeleteSubImage(string fileName)
+        {
+            // تحديد المسار: wwwroot/images/SubImage
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "SubImage");
+            var filePath = Path.Combine(folderPath, fileName);
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+
+
+
         public async Task<List<string>> UploadManyAsync(List<IFormFile> files, string folderName)
         {
             var fileNames = new List<string>();

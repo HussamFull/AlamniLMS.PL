@@ -15,7 +15,12 @@ namespace AlamniLMS.BLL.Services.Interfacese
     {
          Task<int> CreateCourse(CourseRequest request);
 
-        Task<List<CourseResponse>> GetAllCourses(HttpRequest request, bool onlayActive = false);
+        Task<List<CourseResponse>> GetAllCourses(HttpRequest request, int pageNumber = 1, int pageSize = 1, bool onlayActive = false);
 
+        Task<int> UpdateFile(int id, CourseRequest request);
+
+        Task<int> DeleteCourse(int id);
+
+        Task<CourseResponse?> GetCourseByIdWithImages(int id, HttpRequest request); 
     }
 }

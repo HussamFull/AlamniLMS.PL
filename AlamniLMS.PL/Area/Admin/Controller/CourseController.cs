@@ -1,4 +1,5 @@
-﻿using AlamniLMS.BLL.Services.Interfacese;
+﻿using AlamniLMS.BLL.Services.Classes;
+using AlamniLMS.BLL.Services.Interfacese;
 using AlamniLMS.DAL.DTO.Requests;
 using AlamniLMS.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -21,8 +22,13 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
         }
 
         [HttpGet("")]
-        public  IActionResult GetAll()=> Ok(_courseService.GetAllCourses(Request));
+        public  IActionResult GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize =5) 
 
+        {
+           var Courses =  _courseService.GetAllCourses(Request, pageNumber , pageSize , false);
+
+             return Ok(Courses);
+        }
 
         [HttpPost("")]
         public async Task<IActionResult> Create([FromForm] CourseRequest request )
@@ -31,52 +37,65 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
             return Ok(result);
         }
 
-        //[HttpGet("{id}")]
-        //public IActionResult GetById([FromRoute] int id)
-        //{
-        //    var Course = _courseService.GetById(id);
-        //    if (Course == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(Course);
-        //}
+        [HttpGet("{id}")]
+        public IActionResult GetById([FromRoute] int id)
+        {
+            var Course = _courseService.GetById(id);
+            if (Course == null)
+            {
+                return NotFound();
+            }
+            return Ok(Course);
+        }
 
 
-        //[HttpPost("")]
-        //public IActionResult Create([FromBody] CourseRequest request)
-        //{
-        //    var newCategoryId = _courseService.Create(request);
+  
 
-        //    return CreatedAtAction(
-        //         nameof(GetById),
-        //         new { id = newCategoryId }, // وسائط المسار: لتحديد موقع الكيان الجديد (الـ ID)
-        //         new { message = "Course added successfully" } // جسم الاستجابة: هنا نضع الرسالة
-        //    );
-        //}
 
-        //[HttpPatch("{id}")]
-        //public IActionResult Update([FromRoute] int id, [FromBody] CourseRequest request)
-        //{
-        //    var result = _courseService.Update(id, request);
-        //    return result > 0 ? Ok(new { message = "Course updateed successfully" }) : NotFound();
-        //}
+        // PATCH:  update  api/Courses/
+        [HttpPatch("{id}")]
+        
+        public async Task<IActionResult> Update([FromRoute] int id, [FromForm] CourseRequest request)
+        {
+            var result = await _courseService.UpdateFile(id, request);
 
-        //[HttpPatch("ToggleStatus/{id}")]
-        //public IActionResult ToggleStatus([FromRoute] int id)
-        //{
-        //    var result = _courseService.ToggleStatus(id);
-        //    return result ? Ok(new { message = "Status Toggled" }) : NotFound(new { message = "Status not Toggled" });
-        //}
+            if (result <= 0)
+            {
+                return BadRequest("Failed to update a brand");
+            }
+
+            return Ok(new { message = "Course updated successfully" });
+        }
 
 
 
 
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete([FromRoute] int id)
-        //{
-        //    var result = _courseService.Delete(id);
-        //    return result > 0 ? Ok(new { message = "Delete is Course" }) : NotFound(new { message = "Delete not Course" });
-        //}
+
+        [HttpPatch("ToggleStatus/{id}")]
+        public IActionResult ToggleStatus([FromRoute] int id)
+        {
+            var result = _courseService.ToggleStatus(id);
+            return result ? Ok(new { message = "Status Toggled" }) : NotFound(new { message = "Status not Toggled" });
+        }
+
+
+
+
+     
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id) // نحولها إلى Async
+        {
+            var result = await _courseService.DeleteCourse(id); // <--- استدعاء الدالة الجديدة
+
+            if (result > 0)
+            {
+                return Ok(new { message = "Course deleted successfully" });
+            }
+            else
+            {
+                return NotFound(new { message = "Course not found or failed to delete" });
+            }
+        }
     }
 }

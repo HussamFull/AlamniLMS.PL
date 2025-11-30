@@ -37,67 +37,8 @@ namespace AlamniLMS.PL
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Dependency Injection for Categories
-            builder.Services.AddScoped<ICategoriesRepository,CategoriesRepository>();
-            builder.Services.AddScoped<ICategoriesService,CategoriesService>();
-
-            // Dependency Injection for Brand Repository
-            builder.Services.AddScoped<IBrandRepository, BrandRepository>();
-            builder.Services.AddScoped<IBrandService, BrandService>();
-
-            // Dependency Injection for Course Repository
-            builder.Services.AddScoped<ICourseRepository,CourseRepository>();
-            builder.Services.AddScoped<ICourseService, CourseService>();
-
-            // Dependency Injection for Lecture Repository
-            builder.Services.AddScoped<ILectureRepository, LectureRepository>();
-            builder.Services.AddScoped<ILectureService, LectureService>();
-
-            // Dependency Injection for Enrollment Repository
-            builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-            builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
-
-            // Dependency Injection for CheckOut Service
-            builder.Services.AddScoped<ICheckOutService, CheckOutService>();
-
-            // Dependency Injection for Order Repository
-            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-            builder.Services.AddScoped<IOrderService, OrderService>();
-
-            // Dependency Injection for Order Item Repository
-            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
-
-            // Dependency Injection for User Service
-            builder.Services.AddScoped<IUserService, UserService>();
-            // Dependency Injection for User Repository
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-            // Dependency Injection for Certificate Repository
-            builder.Services.AddScoped<ICertificateService, CertificateService>();
-            builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
-
-
-            // Dependency Injection for Review Repository
-            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-            builder.Services.AddScoped<IReviewService, BLL.Services.Classes.ReviewService>();
-
-
-
-            // Dependency Injection for File Service
-            builder.Services.AddScoped<IFileService, BLL.Services.Classes.FileService>();
-
-
-            // Dependency Injection for Seed Data
-            builder.Services.AddScoped<ISeedData, SeedData>();
-
-            // Dependency Injection for Authentication Service
-            builder.Services.AddScoped<IAuthenticationService, AuthenticationSerive>();
-
-            // Dependency Injection for Email Sender
-            builder.Services.AddScoped<IEmailSender, EmailSetting>();
-
-
-
+          
+            builder.Services.Config();
 
 
             // Register Identity services

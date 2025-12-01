@@ -5,6 +5,7 @@ using AlamniLMS.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace AlamniLMS.PL.Area.Admin.Controllers
 {
@@ -15,10 +16,12 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly ICourseService _courseService;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public CoursesController(ICourseService courseService)
+        public CoursesController(ICourseService courseService, IStringLocalizer<SharedResource> localizer)
         {
             _courseService = courseService;
+            _localizer = localizer;
         }
 
         [HttpGet("")]
@@ -30,12 +33,30 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
              return Ok(Courses);
         }
 
+
         [HttpPost("")]
-        public async Task<IActionResult> Create([FromForm] CourseRequest request )
+        public async Task<IActionResult> Create([FromForm] CourseRequest request)
         {
-            var result  = await _courseService.CreateCourse(request);
-            return Ok(result);
+            // 1. استدعاء الخدمة للحصول على النتيجة
+            var result = await _courseService.CreateCourse(request);
+
+            // 2. إنشاء كائن يحتوي على النتيجة والرسالة
+            var responseData = new
+            {
+                data = result, // النتيجة الفعلية (مثل كائن الدورة التي تم إنشاؤها)
+                message = _localizer["Course created successfully"] // تم تغيير الرسالة لتناسب عملية الإنشاء
+            };
+
+            // 3. إرجاع الكائن باستخدام Ok()
+            return Ok(responseData);
         }
+
+        //[HttpPost("")]
+        //public async Task<IActionResult> Create([FromForm] CourseRequest request )
+        //{
+        //    var result  = await _courseService.CreateCourse(request);
+        //    return Ok(result,new { message = "Course updated successfully" });
+        //}
 
         [HttpGet("{id}")]
         public IActionResult GetById([FromRoute] int id)
@@ -61,10 +82,10 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
 
             if (result <= 0)
             {
-                return BadRequest("Failed to update a brand");
+                return BadRequest(_localizer["Failed to update a brand"]);
             }
 
-            return Ok(new { message = "Course updated successfully" });
+            return Ok(new { message = _localizer["Course updated successfully"]});
         }
 
 
@@ -75,7 +96,7 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
         public IActionResult ToggleStatus([FromRoute] int id)
         {
             var result = _courseService.ToggleStatus(id);
-            return result ? Ok(new { message = "Status Toggled" }) : NotFound(new { message = "Status not Toggled" });
+            return result ? Ok(new { message = _localizer["Status Toggled"] }) : NotFound(new { message = _localizer["Status not Toggled"] });
         }
 
 
@@ -90,11 +111,11 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
 
             if (result > 0)
             {
-                return Ok(new { message = "Course deleted successfully" });
+                return Ok(new { message = _localizer["Course deleted successfully"] });
             }
             else
             {
-                return NotFound(new { message = "Course not found or failed to delete" });
+                return NotFound(new { message = _localizer["Course not found or failed to delete"] });
             }
         }
     }

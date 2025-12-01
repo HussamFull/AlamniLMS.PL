@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using AlamniLMS.DAL.DTO.Requests;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Localization;
 
 
 
@@ -18,10 +19,12 @@ namespace AlamniLMS.PL.Area.Admin.Controller
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IStringLocalizer<SharedResource> localizer)
         {
             _userService = userService;
+            _localizer = localizer;
         }
         // Get All Users
         [HttpGet("")]
@@ -53,7 +56,7 @@ namespace AlamniLMS.PL.Area.Admin.Controller
             {
                 return NotFound();
             }
-            return Ok(new { Message = "User blocked successfully" });
+            return Ok(new { Message = _localizer["User blocked successfully"] });
         }
 
         // UnBlock User
@@ -65,7 +68,7 @@ namespace AlamniLMS.PL.Area.Admin.Controller
             {
                 return NotFound();
             }
-            return Ok(new { Message = "User unblocked successfully" });
+            return Ok(new { Message = _localizer["User unblocked successfully"] });
         }
 
         // Is Blocked User
@@ -85,7 +88,7 @@ namespace AlamniLMS.PL.Area.Admin.Controller
             {
                 return NotFound();
             }
-            return Ok(new { Message = "User role changed successfully" });
+            return Ok(new { Message = _localizer["User role changed successfully"] });
         }
     }
 }

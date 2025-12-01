@@ -4,6 +4,7 @@ using AlamniLMS.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace AlamniLMS.PL.Area.Admin.Controllers
 {
@@ -14,10 +15,12 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
     public class LecturesController : ControllerBase
     {
         private readonly ILectureService _lectureService;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public LecturesController(ILectureService lectureService)
+        public LecturesController(ILectureService lectureService, IStringLocalizer<SharedResource> localizer)
         {
             _lectureService = lectureService;
+            _localizer = localizer;
         }
 
         [HttpGet("")]

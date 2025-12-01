@@ -4,6 +4,7 @@ using AlamniLMS.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace AlamniLMS.PL.Area.Admin.Controllers
 {
@@ -16,10 +17,12 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
     public class BrandsController : ControllerBase
     {
         private readonly IBrandService _brandService;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public BrandsController(IBrandService brandService)
+        public BrandsController(IBrandService brandService, IStringLocalizer<SharedResource> localizer)
         {
             _brandService = brandService;
+            _localizer = localizer;
         }
 
         // GET: api/Brands
@@ -84,7 +87,7 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
             return CreatedAtAction(
                  nameof(GetById),
                  new { id = result }, // وسائط المسار: لتحديد موقع الكيان الجديد (الـ ID)
-                 new { message = "Brand added successfully" } // جسم الاستجابة: هنا نضع الرسالة
+                 new { message = _localizer["Brand added successfully"].Value } // جسم الاستجابة: هنا نضع الرسالة
             );
         }
 
@@ -102,10 +105,10 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
 
             if (result <= 0)
             {
-                return BadRequest("Failed to update a brand");
+                return BadRequest(_localizer["Failed to update a brand"].Value);
             }
 
-            return Ok(new { message = "Brand updated successfully" });
+            return Ok(new { message = _localizer["Brand updated successfully" ].Value });
         }
 
 

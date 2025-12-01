@@ -11,11 +11,14 @@ using AlamniLMS.PL.utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Scalar;
 using Scalar.AspNetCore;
 using Stripe;
+using System.Globalization;
 using System.Text;
 
 namespace AlamniLMS.PL
@@ -25,6 +28,26 @@ namespace AlamniLMS.PL
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
+
+            // Resources Localization 
+            const string defaultCulture = "en";
+            var supportedCultures = new[]
+            {
+                new CultureInfo(defaultCulture),
+                new CultureInfo("ar"),
+                new CultureInfo("de")
+            };
+            builder.Services.Configure<RequestLocalizationOptions>(options => {
+                options.DefaultRequestCulture = new RequestCulture(defaultCulture);
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+            
+            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+
 
             // Add services to the container.
 
@@ -108,6 +131,12 @@ namespace AlamniLMS.PL
             await objectOfSeedData.IdentityDataSeedingAsync();
 
             app.UseHttpsRedirection();
+
+            app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
+
+
+
+
             app.UseAuthentication();
 
             app.UseAuthorization();

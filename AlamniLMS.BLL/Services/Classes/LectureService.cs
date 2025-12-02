@@ -53,6 +53,66 @@ namespace AlamniLMS.BLL.Services.Classes
             return _repository.Add(entity);
         }
 
-        
+
+
+        // 1 2 3  GetLectureById
+        public LectureResponse GetLectureById(int id)
+        {
+            var lecture = _repository.GetById(id);
+            if (lecture == null)
+                return null;
+
+            return lecture.Adapt<LectureResponse>();
+        }
+        // 1 2 3 UpdateLecture
+
+        public async Task<int> UpdateLecture(int id, LectureRequest request)
+        {
+            var lecture = _repository.GetById(id);
+            if (lecture == null)
+                return 0;
+
+            // تعديل البيانات
+            lecture.Title = request.Title;
+            lecture.Description = request.Description;
+            lecture.Order = request.Order;
+            lecture.DurationSeconds = request.DurationSeconds;
+
+            // تعديل الفيديو
+            if (request.VideoUrl != null)
+            {
+                // حذف القديم من السيرفر
+                if (!string.IsNullOrEmpty(lecture.VideoUrl))
+                {
+                    _fileService.Delete(lecture.VideoUrl);
+                }
+
+                // رفع الجديد
+                var newVideo = await _fileService.UploadAsync(request.VideoUrl, "videos");
+                lecture.VideoUrl = newVideo;
+            }
+
+            lecture.UpdatedAt = DateTime.UtcNow;
+
+            return _repository.Update(lecture);
+        }
+
+
+        // 1 2 3 DeleteLecture
+        public int DeleteLecture(int id)
+        {
+            var lecture = _repository.GetById(id);
+            if (lecture == null)
+                return 0;
+
+            // حذف الفيديو من السيرفر
+            if (!string.IsNullOrEmpty(lecture.VideoUrl))
+            {
+                _fileService.Delete(lecture.VideoUrl);
+            }
+
+            return _repository.Remove(lecture);
+        }
+
     }
 }

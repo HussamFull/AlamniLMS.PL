@@ -154,6 +154,9 @@ namespace AlamniLMS.DAL.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -189,6 +192,9 @@ namespace AlamniLMS.DAL.Data.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -342,6 +348,9 @@ namespace AlamniLMS.DAL.Data.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("VideoUrl")
                         .IsRequired()
@@ -586,7 +595,7 @@ namespace AlamniLMS.DAL.Data.Migrations
             modelBuilder.Entity("AlamniLMS.DAL.Models.Review", b =>
                 {
                     b.HasOne("AlamniLMS.DAL.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -634,6 +643,8 @@ namespace AlamniLMS.DAL.Data.Migrations
                     b.Navigation("Enrollments");
 
                     b.Navigation("Lectures");
+
+                    b.Navigation("Reviews");
 
                     b.Navigation("SubImages");
                 });

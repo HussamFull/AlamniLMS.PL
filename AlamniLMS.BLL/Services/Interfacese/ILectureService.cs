@@ -12,5 +12,9 @@ namespace AlamniLMS.BLL.Services.Interfacese
     public interface ILectureService : IGenericService<LectureRequest, LectureResponse, Lecture>
     {
             Task<int> CreateFile(LectureRequest request);
+        // 1 2 3
+        LectureResponse GetLectureById(int id);
+        Task<int> UpdateLecture(int id, LectureRequest request);
+        int DeleteLecture(int id);
     }
 }

@@ -31,55 +31,52 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
         public async Task<IActionResult> Create([FromForm] LectureRequest request )
         {
             var result  = await _lectureService.CreateFile(request);
-            return Ok(result);
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = result }, // وسائط المسار: لتحديد موقع الكيان الجديد (الـ ID)
+                new { message = _localizer["Lecture added successfully"].Value } // جسم الاستجابة: هنا نضع الرسالة
+           );
         }
 
-        //[HttpGet("{id}")]
-        //public IActionResult GetById([FromRoute] int id)
-        //{
-        //    var Lecture = _lectureService.GetById(id);
-        //    if (Lecture == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(Lecture);
-        //}
+        // 123  GET: api/Lectures/5
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var lecture = _lectureService.GetLectureById(id);
+            if (lecture == null)
+                return NotFound();
+
+            return Ok(lecture);
+        }
+
+        // update
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] LectureRequest request)
+        {
+            var result = await _lectureService.UpdateLecture(id, request);
+
+            if (result > 0)
+                return Ok(new { message = _localizer["Lecture updated successfully"] });
+
+            return NotFound(new { message = _localizer["Lecture not found"] });
+        }
 
 
-        //[HttpPost("")]
-        //public IActionResult Create([FromBody] LectureRequest request)
-        //{
-        //    var newCategoryId = _lectureService.Create(request);
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var result = _lectureService.DeleteLecture(id);
 
-        //    return CreatedAtAction(
-        //         nameof(GetById),
-        //         new { id = newCategoryId }, // وسائط المسار: لتحديد موقع الكيان الجديد (الـ ID)
-        //         new { message = "Lecture added successfully" } // جسم الاستجابة: هنا نضع الرسالة
-        //    );
-        //}
+            if (result > 0)
+                return Ok(new { message = _localizer["Lecture deleted successfully"] });
 
-        //[HttpPatch("{id}")]
-        //public IActionResult Update([FromRoute] int id, [FromBody] LectureRequest request)
-        //{
-        //    var result = _lectureService.Update(id, request);
-        //    return result > 0 ? Ok(new { message = "Lecture updateed successfully" }) : NotFound();
-        //}
-
-        //[HttpPatch("ToggleStatus/{id}")]
-        //public IActionResult ToggleStatus([FromRoute] int id)
-        //{
-        //    var result = _lectureService.ToggleStatus(id);
-        //    return result ? Ok(new { message = "Status Toggled" }) : NotFound(new { message = "Status not Toggled" });
-        //}
-
+            return NotFound(new { message = _localizer["Lecture not found"] });
+        }
 
 
 
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete([FromRoute] int id)
-        //{
-        //    var result = _lectureService.Delete(id);
-        //    return result > 0 ? Ok(new { message = "Delete is Lecture" }) : NotFound(new { message = "Delete not Lecture" });
-        //}
+
+
     }
 }

@@ -8,7 +8,8 @@ namespace AlamniLMS.DAL.DTO.Responses
 {
     public class LectureResponse
     {
-       // public int CourseId { get; set; }
+        // public int CourseId { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
         public string? VideoUrl { get; set; }       // أو مسار الملف في التخزين

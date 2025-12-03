@@ -14,7 +14,10 @@ namespace AlamniLMS.DAL.DTO.Responses
         public string? Description { get; set; }
         public string? VideoUrl { get; set; }       // أو مسار الملف في التخزين
 
-        public string? VideoUrlUrl =>  $"https://localhost:7122/videos/{VideoUrl}";
+        // ✅ إضافة خاصية جديدة لاستقبال الرابط العام من الخدمة
+        public string? VideoUrlUrl { get; set; }
+
+        // public string? VideoUrlUrl =>  $"https://localhost:7122/videos/{VideoUrl}";
         public int? Order { get; set; }             // ترتيب المحاضرة داخل الكورس
         public int? DurationSeconds { get; set; }   // مدة الفيديو (اختياري)
 

@@ -4,6 +4,7 @@ using AlamniLMS.DAL.DTO.Responses;
 using AlamniLMS.DAL.Models;
 using AlamniLMS.DAL.Repository.Interfaces;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,14 +57,69 @@ namespace AlamniLMS.BLL.Services.Classes
 
 
         // 1 2 3  GetLectureById
-        public LectureResponse GetLectureById(int id)
+        // **✅ التعديل هنا:** استقبال HttpRequest
+        public LectureResponse GetLectureById(int id, HttpRequest request)
         {
             var lecture = _repository.GetById(id);
             if (lecture == null)
                 return null;
 
-            return lecture.Adapt<LectureResponse>();
+            // 1. بناء المسار الأساسي
+            var baseUrl = $"{request.Scheme}://{request.Host}{request.PathBase}";
+
+            // 2. التحويل إلى DTO
+            var response = lecture.Adapt<LectureResponse>();
+
+            // 3. بناء رابط الفيديو العام
+            if (!string.IsNullOrEmpty(lecture.VideoUrl))
+            {
+                // VideoUrlUrl هو الخاصية الجديدة التي أضفناها في DTO
+                response.VideoUrlUrl = $"{baseUrl}/videos/{lecture.VideoUrl}".Replace("//", "/");
+            }
+
+            return response;
         }
+
+        // **✅ الإضافة هنا:** دالة جلب الجميع الجديدة
+        public IEnumerable<LectureResponse> GetAllLectures(HttpRequest request, bool onlyActive = false)
+        {
+            var entities = _repository.GetAll();
+            if (onlyActive)
+            {
+                entities = entities.Where(e => e.Status == Status.Active);
+            }
+
+            // بناء المسار الأساسي
+            var baseUrl = $"{request.Scheme}://{request.Host}{request.PathBase}";
+
+            // التحويل وبناء الروابط
+            return entities.Select(lecture =>
+            {
+                var response = lecture.Adapt<LectureResponse>();
+                if (!string.IsNullOrEmpty(lecture.VideoUrl))
+                {
+                    response.VideoUrlUrl = $"{baseUrl}/videos/{lecture.VideoUrl}".Replace("//", "/");
+                }
+                return response;
+            }).ToList();
+        }
+
+
+
+
+
+        //public LectureResponse GetLectureById(int id, HttpRequest request)
+        //{
+        //    var lecture = _repository.GetById(id);
+        //    if (lecture == null)
+        //        return null;
+
+        //    // 1. بناء المسار الأساسي
+        //    var baseUrl = $"{request.Scheme}://{request.Host}{request.PathBase}";
+
+
+        //    return lecture.Adapt<LectureResponse>();
+        //}
         // 1 2 3 UpdateLecture
 
         public async Task<int> UpdateLecture(int id, LectureRequest request)

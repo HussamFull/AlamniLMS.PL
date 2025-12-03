@@ -24,32 +24,29 @@ namespace AlamniLMS.PL.Area.Customer.Controllers
         }
 
         [HttpGet("")]
-        public  IActionResult GetAll()=> Ok(_lectureService.GetAll());
-
-
-        [HttpPost("")]
-        public async Task<IActionResult> Create([FromForm] LectureRequest request )
+        public IActionResult GetAll()
         {
-            var result  = await _lectureService.CreateFile(request);
-            return CreatedAtAction(
-               nameof(GetById),
-               new { id = result }, // وسائط المسار: لتحديد موقع الكيان الجديد (الـ ID)
-               new { message = _localizer["Lecture added successfully"].Value } // جسم الاستجابة: هنا نضع الرسالة
-          );
+            // **✅ التعديل هنا:** تمرير Request
+            var lectures = _lectureService.GetAllLectures(Request);
+            return Ok(lectures);
         }
 
+
+
+        // 123  GET: api/Lectures/5
         // 123  GET: api/Lectures/5
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var lecture = _lectureService.GetLectureById(id);
+            // **✅ التعديل هنا:** استدعاء دالة الخدمة الجديدة التي تقبل Request
+            var lecture = _lectureService.GetLectureById(id, Request);
             if (lecture == null)
                 return NotFound();
 
             return Ok(lecture);
         }
 
-       
+
 
 
 

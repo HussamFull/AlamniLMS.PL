@@ -65,6 +65,17 @@ namespace AlamniLMS.PL
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
+
+            // Cursse Configuration
+            var userPolicy = "";
+            builder.Services.AddCors(Options =>
+            {
+                Options.AddPolicy(name: userPolicy, policy =>
+                {
+                    policy.AllowAnyOrigin();
+                });
+            });
+
             builder.Services.AddControllers();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -127,6 +138,8 @@ namespace AlamniLMS.PL
 
             var app = builder.Build();
 
+           
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -148,7 +161,7 @@ namespace AlamniLMS.PL
 
 
             app.UseAuthentication();
-
+            app.UseCors(userPolicy);
             app.UseAuthorization();
 
             app.UseStaticFiles();

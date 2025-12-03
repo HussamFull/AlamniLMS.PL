@@ -109,7 +109,8 @@ namespace AlamniLMS.BLL.Services.Classes
                 // 4.1. رابط الصورة المصغرة (Thumbnail)
                 // يجب أن نستخدم المسار الصحيح للمجلد، وهو عادةً /images (بناءً على الكود الذي أرسلته سابقاً)
                 ThumbnailPathUrl = !string.IsNullOrEmpty(p.ThumbnailPath) ?
-                                   $"{baseUrl}/images/{p.ThumbnailPath}" :
+                                  // $"{baseUrl}/images/{p.ThumbnailPath}" :
+                                  $"{baseUrl}/images/{p.ThumbnailPath}".Replace("//", "/") :
                                    null, // يُفضل إرجاع null أو رابط افتراضي إذا كانت الصورة غير موجودة
 
                 // 4.2. روابط الصور الفرعية (SubImages)
@@ -117,7 +118,8 @@ namespace AlamniLMS.BLL.Services.Classes
                 {
                     // المسار المتفق عليه هو /images/SubImage
                     return !string.IsNullOrEmpty(img.ImageName) ?
-                           $"{baseUrl}/images/SubImage/{img.ImageName}" :
+                         //  $"{baseUrl}/images/SubImage/{img.ImageName}" :
+                         $"{baseUrl}/images/SubImage/{img.ImageName}".Replace("//", "/") :
                            null;
                 }).Where(url => url != null).ToList()!, // تصفية أي روابط فارغة
 
@@ -296,7 +298,8 @@ namespace AlamniLMS.BLL.Services.Classes
             // بناء رابط Thumbnail
             if (!string.IsNullOrEmpty(courseEntity.ThumbnailPath))
             {
-                response.ThumbnailPathUrl = $"{baseUrl}/images/{courseEntity.ThumbnailPath}";
+                response.ThumbnailPathUrl = $"{baseUrl}/images/{courseEntity.ThumbnailPath}".Replace("//", "/");
+                //response.ThumbnailPathUrl = $"{baseUrl}/images/{courseEntity.ThumbnailPath}";
             }
 
             // بناء روابط SubImages (الآن courseEntity.SubImages لن تكون فارغة)
@@ -306,7 +309,8 @@ namespace AlamniLMS.BLL.Services.Classes
                 response.SubImagesUrls = courseEntity.SubImages.Select(img =>
                 {
                     return !string.IsNullOrEmpty(img.ImageName) ?
-                           $"{baseUrl}/images/{subImageFolderName}/{img.ImageName}"  :
+                    $"{baseUrl}/images/{subImageFolderName}/{img.ImageName}".Replace("//", "/") :
+                           // $"{baseUrl}/images/{subImageFolderName}/{img.ImageName}"  :
                            null;
                 }).Where(url => url != null).ToList()!;
             }

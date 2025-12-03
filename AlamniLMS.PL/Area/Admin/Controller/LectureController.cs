@@ -24,7 +24,15 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
         }
 
         [HttpGet("")]
-        public  IActionResult GetAll()=> Ok(_lectureService.GetAll());
+        public IActionResult GetAll()
+        {
+            // **✅ التعديل هنا:** تمرير Request
+            var lectures = _lectureService.GetAllLectures(Request);
+            return Ok(lectures);
+        }
+
+        //[HttpGet("")]
+        //public  IActionResult GetAll()=> Ok(_lectureService.GetAll());
 
 
         [HttpPost("")]
@@ -42,12 +50,23 @@ namespace AlamniLMS.PL.Area.Admin.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var lecture = _lectureService.GetLectureById(id);
+            // **✅ التعديل هنا:** استدعاء دالة الخدمة الجديدة التي تقبل Request
+            var lecture = _lectureService.GetLectureById(id, Request);
             if (lecture == null)
                 return NotFound();
 
             return Ok(lecture);
         }
+
+        //[HttpGet("{id}")]
+        //public IActionResult GetById(int id)
+        //{
+        //    var lecture = _lectureService.GetLectureById(id);
+        //    if (lecture == null)
+        //        return NotFound();
+
+        //    return Ok(lecture);
+        //}
 
         // update
 

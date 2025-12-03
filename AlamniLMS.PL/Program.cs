@@ -1,7 +1,6 @@
 
 using AlamniLMS.BLL.Services.Classes;
 using AlamniLMS.BLL.Services.Interfacese;
-
 using AlamniLMS.DAL.Data;
 using AlamniLMS.DAL.Models;
 using AlamniLMS.DAL.Repository.Classes;
@@ -43,6 +42,17 @@ namespace AlamniLMS.PL
                 options.DefaultRequestCulture = new RequestCulture(defaultCulture);
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
+
+                options.RequestCultureProviders = new List<IRequestCultureProvider>
+{
+                        new QueryStringRequestCultureProvider()
+                        {
+                            QueryStringKey = "Lang"
+                        }
+                };
+
+
+
             });
             
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
